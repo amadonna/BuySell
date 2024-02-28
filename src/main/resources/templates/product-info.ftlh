@@ -7,28 +7,13 @@
 <h1>BUY SELL</h1>
 <h4>More information about product : </h4>
 <b>Title of product : </b>${product.title}<br>
-<b>Title of product : </b>${product.title}<br>
+<b>Description of product : </b>${product.description}<br>
+<b>Perice : </b>${product.price}<br>
+<b>City : </b>${product.city}<br>
+<b>Author : </b>${product.author}<br>
 <hr>
-<h3>
-    Create new product
-</h3>
-<form action="/product/create" method="post">
-    Навзвание обявления: <label>
-        <input type="text" name="title"/>
-    </label><br><br>
-    Описание обявления: <label>
-        <input type="text" name="description"/>
-    </label><br><br>
-    Цена товара : <label>
-        <input type="number" name="price"/>
-    </label><br><br>
-    City : <label>
-        <input type="text" name="city"/>
-    </label><br><br>
-    Author : <label>
-        <input type="text" name="author"/>
-    </label><br><br>
-    <input type="submit" value=" add "/>
+<form action="/product/delete/${product.id}" method="post">
+    <input type="submit" value=" delete product "/>
 </form>
 </body>
 </html>

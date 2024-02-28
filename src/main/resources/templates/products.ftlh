@@ -6,10 +6,16 @@
 <body>
 <h1>BUY SELL</h1>
 <h4>Товары со всей России :</h4>
+<form action="/" method="get">
+    Search by title: <input type="text" name="title"> <br>
+    <input type="submit" value="search"/>
+</form>
 <#list products as product>
     <div>
         <p><b>${product.title}</b> ${product.price} $ | <a href="/product/${product.id}"> More...</a> </p>
     </div>
+    <#else>
+    <h3>No products </h3>
 </#list>
 <hr>
 <h3>
