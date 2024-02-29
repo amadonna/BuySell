@@ -7,7 +7,9 @@
 <h1>BUY SELL</h1>
 <h4>Товары со всей России :</h4>
 <form action="/" method="get">
-    Search by title: <input type="text" name="title"> <br>
+    Search by title: <label>
+        <input type="text" name="title">
+    </label> <br>
     <input type="submit" value="search"/>
 </form>
 <#list products as product>
@@ -37,6 +39,9 @@
     Author : <label>
         <input type="text" name="author"/>
     </label><br><br>
+    First photo <input type="file" name="file1"/><br>
+    Second photo <input type="file" name="file2"/><br>
+    Third photo <input type="file" name="file3"/><br>
     <input type="submit" value=" add "/>
 </form>
 </body>

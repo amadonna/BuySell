@@ -5,7 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Setter
@@ -29,6 +33,18 @@ public class Product {
     private String city;
     @Column(name = "author")
     private String author;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
+    mappedBy = "product")
+    private List<Image> images = new ArrayList<>();
+    private Long previewImageId;
+    private LocalDateTime dateOfCreated;
+
+    @PrePersist
+    private void init() {
+        dateOfCreated = LocalDateTime.now();
+    }
+
 
     public boolean equals(final Object o) {
         if (o == this) return true;
@@ -72,5 +88,8 @@ public class Product {
     public String toString() {
         return "Product(title=" + this.getTitle() + ", description=" + this.getDescription() + ", price=" + this.getPrice() + ", city=" + this.getCity() + ", author=" + this.getAuthor() + ")";
     }
-
+    public void addImage(Image image) {
+        image.setProduct(this);
+        images.add(image);
+    }
 }

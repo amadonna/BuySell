@@ -6,6 +6,11 @@
 <body>
 <h1>BUY SELL</h1>
 <h4>More information about product : </h4>
+
+<img src="images/${product.images.get(0)!}" height="60px" alt=""/><br><br>
+<img src="images/${product.images.get(1)!}" height="60px" alt=""/><br><br>
+<img src="images/${product.images.get(2)!}" height="60px" alt=""/><br><br>
+
 <b>Title of product : </b>${product.title}<br>
 <b>Description of product : </b>${product.description}<br>
 <b>Perice : </b>${product.price}<br>
