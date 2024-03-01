@@ -45,6 +45,7 @@ public class ProductService {
             product.addImage(image3);
         }
         log.info("Saving new Product. Title: {}; Author: {}", product.getTitle(), product.getAuthor());
+        log.info("About photos: {}", product.getImages().get(0).getContentType());
         Product productFromDb = repository.save(product);
         productFromDb.setPreviewImageId(productFromDb.getImages().get(0).getId());
         repository.save(product);

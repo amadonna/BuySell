@@ -1,8 +1,10 @@
 package com.example.buysell.controllers;
 
+import com.example.buysell.models.Image;
 import com.example.buysell.models.Product;
 import com.example.buysell.services.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOError;
 import java.io.IOException;
+import java.util.Arrays;
 
 @Controller
 @RequiredArgsConstructor
@@ -27,7 +29,12 @@ public class ProductController {
 
     @GetMapping("/product/{id}")
     public String productInfo(@PathVariable Long id, Model model) {
-        model.addAttribute("product", service.getById(id));
+        Product product = service.getById(id);
+        model.addAttribute("product", product);
+        for (Image i : product.getImages()) {
+            System.out.print(MediaType.valueOf(i.getContentType()) + " " + i.getOriginalFileName() + " " + Arrays.toString(i.getBytes()));
+        }
+        model.addAttribute("images", product.getImages());
         return "product-info";
     }
     @PostMapping("/product/create")
