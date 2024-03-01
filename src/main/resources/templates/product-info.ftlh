@@ -7,9 +7,13 @@
 <h1>BUY SELL</h1>
 <h4>More information about product : </h4>
 
+<#if images ? size == 0>
+    <div>No images of product</div>
+<#else>
 <#list images as image>
-    <img src="images/${image.id}" height="60px" alt="Product Image"/><br><br>
+    <img src="/images/${image.id}" style="max-width: 100px; max-height: 100px;"/><br><br>
 </#list>
+</#if>
 
 <b>Title of product : </b>${product.title}<br>
 <b>Description of product : </b>${product.description}<br>

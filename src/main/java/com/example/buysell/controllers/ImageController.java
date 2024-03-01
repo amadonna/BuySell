@@ -8,11 +8,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.ByteArrayInputStream;
-import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,9 +21,8 @@ public class ImageController {
         Image image = repository.findById(id).orElse(null);
         if (image != null) {
             return ResponseEntity.ok()
-                    .header("Content-Disposition", "inline; filename=", Objects.requireNonNull(image).getOriginalFileName())
                     .contentType(MediaType.valueOf(image.getContentType()))
-                    .contentLength(image.getSize())
+                    .contentLength(image.getBytes().length)
                     .body(new InputStreamResource(new ByteArrayInputStream(image.getBytes())));
         }
         return ResponseEntity.notFound().build();
