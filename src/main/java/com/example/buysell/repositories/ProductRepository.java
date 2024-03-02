@@ -1,6 +1,6 @@
 package com.example.buysell.repositories;
 
-import com.example.buysell.models.Product;
+import com.example.buysell.models.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
