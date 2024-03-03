@@ -19,8 +19,7 @@
 <b>Description of product : </b>${product.description}<br>
 <b>Perice : </b>${product.price}<br>
 <b>City : </b>${product.city}<br>
-<b>Author : </b>${product.user.name}<br>
-<b>Telephone number of author:</b> ${product.user.phoneNumber}
+<b>Author : </b> <a href="/user/${product.user.id}"> ${product.user.name} </a><br>
 <hr>
 </body>
 </html>

@@ -11,6 +11,9 @@
         <input type="hidden" name="_csrf" value="${_csrf.token}">
         <input type="submit" value="Выйти"/>
     </form>
+    <#if user.admin>
+        <a href="/admin"> Панель администратора</a>
+    </#if>
 <#else>
     <a href="/login">Войти</a></h1>
 </#if>
