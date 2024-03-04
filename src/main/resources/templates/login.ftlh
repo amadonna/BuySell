@@ -6,6 +6,9 @@
 <body>
 <h1>BUYSELL</h1><hr>
 <h4>Авторизация</h4>
+<#if errorMessage??>
+    <div style="color: crimson;">${errorMessage}</div>
+</#if>
 <form action="/login" method="post">
     Эл. почта: <input type="email" name="username"><br><br>
     Пароль: <input type="password" name="password"><br><br>
