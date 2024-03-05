@@ -56,13 +56,18 @@ public class ProductService {
             product.addImage(image3);
         }
         log.info("Saving new Product. Title: {}; email: {}", product.getTitle(), product.getUser().getEmail());
-        log.info("About photos: {}", product.getImages().getFirst().getContentType());
         Product productFromDb = repository.save(product);
         productFromDb.setPreviewImageId(productFromDb.getImages().getFirst().getId());
         repository.save(product);
     }
-    public  void delete(Long id) {
-       repository.deleteById(id);
+    public  void delete(User user, Long id) {
+       Product product = repository.getReferenceById(id);
+        if (product.getUser().getId().equals(user.getId())) {
+            repository.delete(product);
+            log.info("Product with id = {} has been deleted", id);
+        } else {
+            log.error("User: {} have not this product witch id = {}", user.getEmail(), id);
+        }
     }
 
     private Image toImage(MultipartFile file) throws IOException {

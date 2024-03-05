@@ -1,10 +1,9 @@
 package com.example.buysell.controllers;
 
-import com.example.buysell.models.Image;
 import com.example.buysell.models.Product;
+import com.example.buysell.models.User;
 import com.example.buysell.services.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.Arrays;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,21 +21,21 @@ public class ProductController {
     private final ProductService service;
 
     @GetMapping("/")
-    public String products(@RequestParam(name = "title", required = false) String title,
-                           Model model, Principal principal) {
+    public String products(@RequestParam(name = "searchWord", required = false)
+                           String title, Principal principal, Model model) {
         model.addAttribute("products", service.listProducts(title));
         model.addAttribute("user", service.getUserByPrincipal(principal));
-        return "products";
+        model.addAttribute("searchWord", title);
+        return "my-products";
     }
 
     @GetMapping("/product/{id}")
-    public String productInfo(@PathVariable Long id, Model model) {
+    public String productInfo(@PathVariable Long id, Model model, Principal principal) {
         Product product = service.getById(id);
+        model.addAttribute("user",service.getUserByPrincipal(principal));
         model.addAttribute("product", product);
-        for (Image i : product.getImages()) {
-            System.out.print(MediaType.valueOf(i.getContentType()) + " " + i.getOriginalFileName() + " " + Arrays.toString(i.getBytes()));
-        }
         model.addAttribute("images", product.getImages());
+        model.addAttribute("authorProduct", product.getUser());
         return "product-info";
     }
     @PostMapping("/product/create")
@@ -46,12 +44,20 @@ public class ProductController {
                                 @RequestParam("file3") MultipartFile file3,
                                 Product product, Principal principal) throws IOException {
         service.save(principal, product, file1, file2, file3);
-        return "redirect:/";
+        return "redirect:/my/products";
     }
 
     @PostMapping("/product/delete/{id}")
-    public String deleteProduct(@PathVariable Long id) {
-        service.delete(id);
-        return "redirect:/";
+    public String deleteProduct(@PathVariable Long id, Principal principal) {
+        service.delete(service.getUserByPrincipal(principal), id);
+        return "redirect:/my/products";
+    }
+
+    @GetMapping("/my/products")
+    public String userProducts(Principal principal, Model model) {
+        User user = service.getUserByPrincipal(principal);
+        model.addAttribute("user", user);
+        model.addAttribute("products", user.getProducts());
+        return "my-products";
     }
 }

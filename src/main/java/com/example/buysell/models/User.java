@@ -6,7 +6,6 @@ import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity
@@ -15,21 +14,17 @@ import java.util.*;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
-    @Column(name = "email", unique = true)
+    @Column(unique = true, updatable = false)
     private String email;
-    @Column(name = "phone_number")
     private String phoneNumber;
-    @Column(name = "name")
     private String name;
-    @Column(name = "active")
+    private String password;
     private boolean active;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(columnDefinition = "image_id")
+    @JoinColumn
     private Image avatar;
-    @Column(name = "password", length = 1000)
-    private String password;
+
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role",
     joinColumns = @JoinColumn(name = "user_id"))
@@ -37,12 +32,7 @@ public class User implements UserDetails {
     private Set<Role> roles = new HashSet<>();
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
     private List<Product> products = new ArrayList<>();
-    private LocalDateTime dateOfCreated;
 
-    @PrePersist
-    private void init() {
-        dateOfCreated = LocalDateTime.now();
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
