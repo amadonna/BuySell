@@ -1,6 +1,6 @@
 <#import "blocks/template.ftlh" as t>
 <@t.template user>
-    <h1 style="text-align: center">Мои товары</h1>
+    <h1 style="text-align: center">Все товары товары</h1>
     <hr>
     <a class="btn btn-dark mt-3 mb-3" style="text-align: center; width: 100%"
        data-toggle="collapse" href="#collapseExample" role="button"
@@ -66,15 +66,22 @@
             <a href="/product/${product.id}" class="product-link">
                 <div class="card text-white bg-dark my-3 product">
                     <div class="card-top">
-                        <form action="/product/delete/${product.id}" method="post">
-                            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-                            <button type="submit" class="btn btn-danger m-3">
-                                Удалить
-                            </button>
-                        </form>
+                        <#if user.admin || product.user==user>
+                            <form action="/product/delete/${product.id}" method="post">
+                                <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+                                <button type="submit" class="btn btn-danger m-3">
+                                    Удалить
+                                </button>
+                            </form>
+                        </#if>
                     </div>
-                    <img src="/images/${product.previewImageId}"
-                         class="card-img-top">
+                    <#if product.previewImageId??>
+                        <img src="/images/${product.previewImageId}" class="card-img-top">
+                    <#else>
+                        <div class="card-img-top" style="height: 200px; background-color: #eee; display: flex; align-items: center; justify-content: center;">
+                            <span>Фото нет</span>
+                        </div>
+                    </#if>
                     <div class="card-body">
                         <h5 class="card-title">${product.title}</h5>
                         <p class="card-text">${product.price} ₽</p>
@@ -85,7 +92,7 @@
                 </div>
             </a>
         <#else>
-            <h1 style="text-align: center">Не найдено</h1>
+            <h1 style="text-align: center">Товаров не найдено</h1>
         </#list>
     </div>
 </@t.template>

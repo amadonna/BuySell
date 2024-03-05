@@ -62,12 +62,8 @@ public class ProductService {
     }
     public  void delete(User user, Long id) {
        Product product = repository.getReferenceById(id);
-        if (product.getUser().getId().equals(user.getId())) {
-            repository.delete(product);
-            log.info("Product with id = {} has been deleted", id);
-        } else {
-            log.error("User: {} have not this product witch id = {}", user.getEmail(), id);
-        }
+        repository.delete(product);
+        log.info("Product with id = {} has been deleted", id);
     }
 
     private Image toImage(MultipartFile file) throws IOException {
